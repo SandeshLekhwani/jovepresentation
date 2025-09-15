@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Product Leadership & New Initiatives for JoVE — Slide Deck</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<style>
+  :root {
+    --bg1: #0f172a; /* slate-900 */
+    --bg2: #020617; /* slate-950 */
+    --glass: #ffffff1f;
+    --border: #ffffff3a;
+    --text: #e5e7eb;
+    --text-muted: #94a3b8; /* slate-400 */
+    --accent: #60a5fa; /* blue-400 */
+    --accent2: #a78bfa; /* violet-400 */
+    --icon-bg: #60a5fa22;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    color: var(--text);
+    background: radial-gradient(1200px 800px at 20% -10%, #1e293b 0%, transparent 60%),
+                radial-gradient(800px 600px at 110% 10%, #0ea5e9 0%, transparent 55%),
+                linear-gradient(120deg, var(--bg2), var(--bg1));
+    overflow: hidden;
+  }
+  #plexus-bg { position: fixed; inset: 0; z-index: -1; }
+  canvas { display: block; }
+  .deck { position: relative; height: 100dvh; width: 100%; display: grid; grid-template-rows: auto 1fr auto; }
+  header {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 22px;
+    backdrop-filter: saturate(140%) blur(8px);
+    background: linear-gradient(180deg, #ffffff0a, #00000000);
+    border-bottom: 1px solid var(--border);
+  }
+  header .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .2px; }
+  header .brand .dot { height: 10px; width: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 16px var(--accent); }
+  header .meta { opacity: .8; font-size: 12px; }
+  .slides { position: relative; height: 100%; overflow: hidden; }
+  .slide {
+    position: absolute; inset: 0; padding: 24px; display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+  }
+  .slide.active { opacity: 1; pointer-events: auto; }
+  .card {
+    max-width: min(1100px, 92vw); width: 100%;
+    background: linear-gradient(180deg, #ffffff14, #ffffff08);
+    border: 1px solid var(--border); border-radius: 22px; padding: 28px clamp(18px, 3vw, 36px);
+    box-shadow: 0 10px 40px #00000077, inset 0 0 0 1px #ffffff12;
+    backdrop-filter: blur(14px) saturate(140%);
+  }
+  .h1 { font-size: clamp(26px, 4vw, 42px); font-weight: 800; line-height: 1.15; margin: 0 0 10px; }
+  .h2 { font-size: clamp(20px, 2.5vw, 28px); font-weight: 700; margin: 0 0 16px; }
+  .h3 { font-size: clamp(16px, 2vw, 20px); font-weight: 600; margin: 18px 0 8px; color: var(--accent); }
+  .muted { color: var(--text-muted); font-size: clamp(14px, 1.5vw, 16px); }
+  .bullets { margin: 14px 0 0; padding: 0; display: grid; gap: 14px; }
+  .bullets li {
+    list-style: none; display: flex; gap: 12px; align-items: flex-start;
+    line-height: 1.5;
+  }
+  .bullets .icon {
+    flex-shrink: 0; height: 24px; width: 24px; border-radius: 8px;
+    display: grid; place-items: center; background: var(--icon-bg);
+  }
+  .bullets .icon svg { width: 14px; height: 14px; fill: var(--accent); }
+  .grid { display: grid; gap: 18px; grid-template-columns: repeat(12, 1fr); }
+  .col-4 { grid-column: span 4; }
+  .col-6 { grid-column: span 6; }
+  .col-8 { grid-column: span 8; }
+  @media (max-width: 900px) { .col-4, .col-6, .col-8 { grid-column: span 12; } }
+  .kpi { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 20px; margin-bottom: 20px; }
+  .chip { border: 1px solid var(--border); border-radius: 999px; padding: 8px 14px; background: #00000033; font-size: 13px; }
+  .imgph {
+    height: 100%; min-height: 200px; border: 1px dashed var(--border); border-radius: 16px;
+    display: grid; place-items: center;
+    background: linear-gradient(180deg, #ffffff0a, #ffffff05);
+    color: var(--text-muted); font-size: 14px;
+  }
+  .jove-logo-container { text-align: center; margin-top: 20px; }
+  .jove-logo { max-width: 200px; height: auto; }
+
+  /* Timeline Styles */
+  .timeline-container {
+      width: 100%;
+      overflow-x: auto;
+      padding: 20px 0;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent) var(--bg1);
+  }
+  .timeline-container::-webkit-scrollbar { height: 6px; }
+  .timeline-container::-webkit-scrollbar-track { background: var(--bg1); }
+  .timeline-container::-webkit-scrollbar-thumb { background-color: var(--accent); border-radius: 6px; }
+
+  .timeline-wrapper {
+      display: flex;
+      align-items: flex-start;
+      padding: 0 10px;
+      width: max-content;
+  }
+  .timeline-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      min-width: 260px;
+      padding: 0 15px;
+      position: relative;
+  }
+  .timeline-icon-container {
+      height: 60px;
+      width: 60px;
+      border-radius: 50%;
+      background: var(--icon-bg);
+      border: 2px solid var(--border);
+      display: grid;
+      place-items: center;
+      margin-bottom: 15px;
+      flex-shrink: 0;
+  }
+  .timeline-icon-container svg { width: 28px; height: 28px; fill: var(--accent); }
+  .timeline-item h3 { margin: 0 0 10px; font-size: 18px; color: var(--text); }
+  .timeline-item .bullets { text-align: left; font-size: 14px; gap: 8px; align-items: stretch; }
+  .timeline-connector {
+      width: 100px;
+      height: 2px;
+      background: var(--border);
+      margin-top: 30px;
+      flex-shrink: 0;
+  }
+
+  footer {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 22px;
+    border-top: 1px solid var(--border); backdrop-filter: saturate(140%) blur(8px);
+    background: linear-gradient(0deg, #ffffff0a, #00000000);
+  }
+  .controls { display: flex; align-items: center; gap: 10px; }
+  .btn {
+    appearance: none; border: 1px solid var(--border); color: var(--text);
+    background: linear-gradient(180deg, #ffffff22, #ffffff10); padding: 10px 14px;
+    border-radius: 14px; cursor: pointer; font-weight: 700;
+    transition: transform .12s ease, box-shadow .2s ease, background .2s ease;
+    backdrop-filter: blur(8px) saturate(120%);
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px #00000055; }
+  .btn:active { transform: translateY(0); }
+  .btn.primary { border-color: #60a5fa44; }
+  .progress { height: 6px; background: #ffffff22; border-radius: 999px; overflow: hidden; flex: 1; max-width: 400px; }
+  .bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent2)); box-shadow: 0 0 14px var(--accent2); }
+  .hint { opacity: .8; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<!-- SVG Icons Definition -->
+<svg width="0" height="0" style="display:none">
+  <symbol id="icon-bullet" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"/><path d="M12,7a5,5,0,1,0,5,5A5,5,0,0,0,12,7Z"/></symbol>
+  <symbol id="icon-problem" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></symbol>
+  <symbol id="icon-solution" viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></symbol>
+  <symbol id="icon-impact" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.09-4-4L2 16.99z"/></symbol>
+  <symbol id="icon-takeaway" viewBox="0 0 24 24"><path d="M12.65 10A5.99 5.99 0 007 6c-3.31 0-6 2.69-6 6s2.69 6 6 6a5.99 5.99 0 005.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></symbol>
+  <symbol id="icon-beaker" viewBox="0 0 24 24"><path d="M18 3H6L4 21h16L18 3zM6.62 5h10.76l.6 3H6.02l.6-3zM15 12c0 .55-.45 1-1 1s-1-.45-1-1v-1h2v1zm-4-1c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1v-2h-2v1h1zM8 9H6v-.5c0-.83.67-1.5 1.5-1.5S9 7.67 9 8.5V9H8zm8 0h-2v-.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5V9z"/></symbol>
+  <symbol id="icon-network" viewBox="0 0 24 24"><path d="M18.5 14c-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5 4.5-2.02 4.5-4.5-2.02-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM5.5 1c-2.48 0-4.5 2.02-4.5 4.5S3.02 10 5.5 10s4.5-2.02 4.5-4.5S7.98 1 5.5 1zm0 7C4.12 8 3 6.88 3 5.5S4.12 3 5.5 3 8 4.12 8 5.5 6.88 8 5.5 8zm13 0c-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5 4.5-2.02 4.5-4.5-2.02-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM12 9c-1.1 0-2 .9-2 2v2c0 1.1.9 2 2 2s2-.9 2-2v-2c0-1.1-.9-2-2-2zm-6.5 6H7v-2H5.5c-1.38 0-2.5-1.12-2.5-2.5S4.12 8 5.5 8H7V6H5.5C3.02 6 1 8.02 1 10.5S3.02 15 5.5 15zm6.5-6H10v2h2v2h2v-2h2V9h-2V7h-2v2z"/></symbol>
+  <symbol id="icon-rocket" viewBox="0 0 24 24"><path d="M12 2c.55 0 1 .45 1 1v3.07c0 .53-.21 1.04-.59 1.41L10 10v3.07c0 .53-.21 1.04-.59 1.41L7 17v4c0 .55-.45 1-1 1s-1-.45-1-1v-4.07c0-.53.21-1.04.59-1.41L8 13v-3.07c0-.53.21-1.04.59-1.41L11 6V3c0-.55.45-1 1-1zm6.5 14c-1.68 0-3.17.83-4.11 2.11.39.2.74.46 1.04.78.69.69 1.07 1.63 1.07 2.61 0 .28.22.5.5.5s.5-.22.5-.5c0-1.3-.84-2.4-2-2.82.5-.96.79-2.06.79-3.18 0-.55-.45-1-1-1s-1 .45-1 1c0 .76-.17 1.49-.49 2.16-.27.56-.88.84-1.45.57-.56-.27-.84-.88-.57-1.45C14.47 14.8 15.42 13 17.5 13c1.38 0 2.5 1.12 2.5 2.5S19.88 18 18.5 18c-.46 0-.89-.13-1.28-.35-.33-.19-.75-.09-1.01.2s-.16.71.18 1.01C17.02 19.53 17.74 20 18.5 20c2.48 0 4.5-2.02 4.5-4.5S20.98 11 18.5 11c-2.18 0-4.04 1.57-4.43 3.65-.24 1.29.09 2.64.87 3.67.24.32.16.76-.16 1s-.76.16-1-.16c-1.05-1.4-1.25-3.15-.57-4.75C13.88 12.48 15.93 11 18.5 11c2.48 0 4.5 2.02 4.5 4.5S20.98 20 18.5 20c-.82 0-1.59-.22-2.26-.62-.27-.16-.62-.09-.81.19s-.09.62.19.81C16.41 20.8 17.42 21 18.5 21c3.04 0 5.5-2.46 5.5-5.5S21.54 10 18.5 10z"/></symbol>
+</svg>
+
+<canvas id="plexus-bg"></canvas>
+
+<div class="deck" role="application" aria-label="JoVE Slide Deck">
+  <header>
+    <div class="brand"><span class="dot" aria-hidden="true"></span> JoVE — Product Leadership</div>
+    <div class="meta">Use ← / → keys • Click Next/Prev</div>
+  </header>
+
+  <main class="slides" id="slides" tabindex="0">
+
+    <section class="slide" data-title="Title Slide"><div class="card"><h1 class="h1">Product Leadership & New Initiatives for JoVE</h1><p class="muted">Presented by Sandesh Lekhwani</p><div class="jove-logo-container"><img src="https://www.jove.com/wp-content/uploads/2024/03/jove-logo-trans.6f97b4b2.png" alt="JoVE Logo" class="jove-logo"></div></div></section>
+    <section class="slide" data-title="Profile Summary"><div class="card"><h2 class="h2">Profile Summary</h2><ul class="bullets"><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span> <div>Product leader with 6+ years of experience in fintech, healthcare, and commerce.</div></li><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span> <div>Proven ability to launch 0→1 products and lead AI-powered automation initiatives.</div></li><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span> <div>Scaled B2B platforms used by 1000+ merchants, impacting ~100M users.</div></li><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span> <div>Adept at aligning user needs with business goals through data-driven decisions.</div></li></ul></div></section>
+    <section class="slide" data-title="GoKwik: Payouts & Analytics"><div class="card"><h2 class="h2">Impact at GoKwik: Payouts & Analytics</h2><div class="grid"><div class="col-6"><ul class="bullets"><li><span class="icon"><svg><use href="#icon-problem"/></svg></span><div><strong>Problem:</strong> Major pain points for merchants and internal teams regarding billing reconciliation.</div></li><li><span class="icon"><svg><use href="#icon-solution"/></svg></span><div><strong>Solution:</strong> Led the end-to-end development of a Payout billing dashboard.</div></li><li><span class="icon"><svg><use href="#icon-impact"/></svg></span><div><strong>Impact:</strong> Streamlined billing operations and cut reconciliation disputes by 40%.</div></li><li><span class="icon"><svg><use href="#icon-impact"/></svg></span><div><strong>Analytics:</strong> Delivered real-time dashboards to track address fraud, RTO performance, and intent risk signals.</div></li></ul></div><div class="col-6"><div class="imgph">Dashboard / Analytics Chart</div></div></div></div></section>
+    <section class="slide" data-title="GoKwik: KwikFlows & GenAI"><div class="card"><h2 class="h2">Impact at GoKwik: KwikFlows & GenAI</h2><div class="grid"><div class="col-6"><ul class="bullets"><li><span class="icon"><svg><use href="#icon-solution"/></svg></span><div><strong>Scaled KwikFlows</strong> to 1,000+ merchants as a self-serve platform for fraud prevention and RTO mitigation.</div></li><li><span class="icon"><svg><use href="#icon-impact"/></svg></span><div><strong>Established a new revenue-generating product line</strong> for the business.</div></li><li><span class="icon"><svg><use href="#icon-solution"/></svg></span><div><strong>Rolled out a GenAI-based Agent</strong> for implementing COD workflows autonomously.</div></li><li><span class="icon"><svg><use href="#icon-impact"/></svg></span><div><strong>Cut workflow setup time by 70%</strong> and improved recovery rates.</div></li></ul></div><div class="col-6"><div class="imgph">GenAI Agent UI / Workflow Diagram</div></div></div></div></section>
+    <section class="slide" data-title="Co-founder: SingleDose"><div class="card"><h2 class="h2">Co-founder Experience: SingleDose (Acquired by Cipla)</h2><ul class="bullets"><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span><div>Built a global HCP engagement network of over 10,000 doctors.</div></li><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span><div>Launched "Ciplamed Flix," an award-winning platform for tech-led innovation used by over 15,000 doctors.</div></li><li><span class="icon"><svg><use href="#icon-impact"/></svg></span><div>Optimized onboarding UX, which boosted user acquisition by 50% and retention by 30%.</div></li><li><span class="icon"><svg><use href="#icon-takeaway"/></svg></span><div>Drove the complete product roadmap, go-to-market strategy, and onboarding operations.</div></li></ul></div></section>
+    <section class="slide" data-title="Key AI & Tech Projects"><div class="card"><h2 class="h2">Key AI & Tech Projects</h2><ul class="bullets"><li><span class="icon"><svg><use href="#icon-solution"/></svg></span><div><strong>RecruiterBuddy:</strong> A conversational AI application that automates screening calls to candidates.</div></li><li><span class="icon"><svg><use href="#icon-solution"/></svg></span><div><strong>ChanakyaGPT:</strong> A chatbot trained on the ancient Indian strategy text of Chanakya Niti.</div></li><li><span class="icon"><svg><use href="#icon-solution"/></svg></span><div><strong>Widur.in:</strong> An AI-based expert consultation platform with 2000+ users and 10 B2B clients.</div></li><li><span class="icon"><svg><use href="#icon-solution"/></svg></span><div><strong>Blockchain PoC:</strong> Led a team to build an Ethereum PoC for a wealth tech use case.</div></li></ul></div></section>
+    <section class="slide" data-title="Leadership & Recognition"><div class="card"><h2 class="h2">Leadership & Recognition</h2><ul class="bullets"><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span><div><strong>Robocon India - Team Lead:</strong> Led a 40-member robotics team, improving the national rank by 53 positions in one year.</div></li><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span><div><strong>Startup India Finalist 2019</strong> for a pitch on autonomous street-cleaning robots.</div></li><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span><div><strong>Top 1% Globally</strong> in the AppEngine.Al GTM strategy challenge.</div></li><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span><div><strong>Founder of RedX Club</strong>, the college's social entrepreneurship chapter.</div></li></ul></div></section>
+    <section class="slide" data-title="Initiative 1: JoVE AI Lab Mentor"><div class="card"><h2 class="h2">Initiative 1: JoVE AI Lab Mentor — The Opportunity</h2><div class="grid"><div class="col-6"><h3 class="h3">The Problem</h3><p class="muted" style="line-height: 1.5;">Static video leads to passive learning. Students and early-career researchers need contextual, on-demand help to understand complex protocols, and professors lack tools to track comprehension.</p></div><div class="col-6"><h3 class="h3">The Vision</h3><p class="muted" style="line-height: 1.5;">Transform passive viewing into an active learning dialogue. Create an intelligent AI-powered layer over JoVE's entire video library that acts as a personal, 24/7 lab mentor.</p></div></div><div class="imgph" style="margin-top: 20px;">AI Mentor Concept UI</div></div></section>
+
+    <!-- Slide 9: Initiative 1 - Path to Commercialization (Timeline View) -->
+    <section class="slide" data-title="Initiative 1: Path to Commercialization">
+        <div class="card">
+            <h2 class="h2">JoVE AI Lab Mentor: Path to Commercialization</h2>
+            <div class="timeline-container">
+                <div class="timeline-wrapper">
+                    <div class="timeline-item">
+                        <div class="timeline-icon-container"><svg><use href="#icon-beaker"/></svg></div>
+                        <h3>Phase 1: MVP & Pilot</h3>
+                        <ul class="bullets">
+                            <li><strong>Distribution:</strong> Free pilot with 5-10 partner university labs.</li>
+                            <li><strong>Metrics:</strong> WAU, Queries/Session, Qualitative Feedback.</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-connector"></div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon-container"><svg><use href="#icon-network"/></svg></div>
+                        <h3>Phase 2: Beta & LMS Integration</h3>
+                        <ul class="bullets">
+                            <li><strong>Distribution:</strong> Market as a beta feature via LMS integrations (Canvas, Moodle).</li>
+                            <li><strong>Metrics:</strong> LMS Adoption %, Student Performance Lift, NPS.</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-connector"></div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon-container"><svg><use href="#icon-rocket"/></svg></div>
+                        <h3>Phase 3: Commercial Launch</h3>
+                        <ul class="bullets">
+                            <li><strong>Distribution:</strong> Package as a premium add-on to institutional subscriptions.</li>
+                            <li><strong>Metrics:</strong> New ARR, Upsell Conversion Rate, Churn Reduction.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide" data-title="Initiative 2: JoVE Research Nexus"><div class="card"><h2 class="h2">Initiative 2: JoVE Research Nexus — The Opportunity</h2><div class="grid"><div class="col-6"><h3 class="h3">The Problem</h3><p class="muted" style="line-height: 1.5;">Scientific research is increasingly interdisciplinary, but content platforms are siloed. Researchers struggle to discover relevant techniques from other fields, and collaboration happens on disconnected platforms.</p></div><div class="col-6"><h3 class="h3">The Vision</h3><p class="muted" style="line-height: 1.5;">Create a hub for cross-disciplinary discovery and collaboration. Enable research labs to create shared knowledge bases around JoVE's content, breaking down silos and accelerating innovation.</p></div></div><div class="imgph" style="margin-top: 20px;">Research Nexus Concept UI</div></div></section>
+
+    <!-- Slide 11: Initiative 2 - Path to Commercialization (Timeline View) -->
+    <section class="slide" data-title="Initiative 2: Path to Commercialization">
+        <div class="card">
+            <h2 class="h2">JoVE Research Nexus: Path to Commercialization</h2>
+            <div class="timeline-container">
+                <div class="timeline-wrapper">
+                    <div class="timeline-item">
+                        <div class="timeline-icon-container"><svg><use href="#icon-beaker"/></svg></div>
+                        <h3>Phase 1: MVP (Collections)</h3>
+                        <ul class="bullets">
+                           <li><strong>Distribution:</strong> Promote "Technique Playlists" to existing users via email/homepage.</li>
+                           <li><strong>Metrics:</strong> CTR, Cross-Discipline Views, Session Duration.</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-connector"></div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon-container"><svg><use href="#icon-network"/></svg></div>
+                        <h3>Phase 2: Beta (Workspaces)</h3>
+                        <ul class="bullets">
+                            <li><strong>Distribution:</strong> Invite PIs at key institutions to pilot private lab workspaces.</li>
+                            <li><strong>Metrics:</strong> # Active Workspaces, Annotations, User Retention.</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-connector"></div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon-container"><svg><use href="#icon-rocket"/></svg></div>
+                        <h3>Phase 3: Commercial Launch</h3>
+                        <ul class="bullets">
+                            <li><strong>Distribution:</strong> Offer a "Lab/Team" license tier sold directly to PIs & department heads.</li>
+                            <li><strong>Metrics:</strong> New ARR, Market Penetration %, User Growth.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="slide" data-title="Closing"><div class="card"><h2 class="h2">Conclusion & Next Steps</h2><ul class="bullets"><li><span class="icon"><svg><use href="#icon-takeaway"/></svg></span><div>My experience in scaling AI products and B2B platforms directly aligns with the opportunities at JoVE.</div></li><li><span class="icon"><svg><use href="#icon-takeaway"/></svg></span><div>The proposed initiatives leverage JoVE’s core assets to expand user engagement and market reach.</div></li><li><span class="icon"><svg><use href="#icon-takeaway"/></svg></span><div>Eager to apply a data-driven, user-centric approach to drive JoVE's global adoption.</div></li></ul></div></section>
+
+  </main>
+
+  <footer>
+    <div class="controls">
+      <button class="btn ghost" id="prev" aria-label="Previous slide">⟵ Prev</button>
+      <button class="btn primary" id="next" aria-label="Next slide">Next ⟶</button>
+    </div>
+    <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
+    <div class="hint">Press <strong>F</strong> for Fullscreen</div>
+  </footer>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('plexus-bg');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+    const particleCount = 70;
+    const maxDist = 120;
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize);
+    resize();
+    function spawn() {
+        particles = Array.from({ length: particleCount }, () => ({
+            x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.5 + 0.8,
+            vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4,
+        }));
+    }
+    spawn();
+    function step() {
+        ctx.clearRect(0, 0, W, H);
+        for (const p of particles) {
+            p.x += p.vx; p.y += p.vy;
+            if (p.x < 0 || p.x > W) p.vx *= -1;
+            if (p.y < 0 || p.y > H) p.vy *= -1;
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(96, 165, 250, 0.8)`; ctx.fill();
+        }
+        for(let i = 0; i < particles.length; i++) {
+            for(let j = i + 1; j < particles.length; j++) {
+                const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
+                if (dist < maxDist) {
+                    ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.strokeStyle = `rgba(167, 139, 250, ${1 - dist / maxDist})`; ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(step);
+    }
+    step();
+
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const bar = document.getElementById('bar');
+    let idx = 0;
+    let isAnimating = false;
+
+    function animateOut(slide, onComplete) {
+        anime({
+            targets: slide,
+            opacity: [1, 0],
+            scale: [1, 0.98],
+            duration: 300,
+            easing: 'easeInQuad',
+            complete: onComplete
+        });
+    }
+
+    function animateIn(slide) {
+        slide.classList.add('active');
+        const card = slide.querySelector('.card');
+        const title = slide.querySelector('.h1, .h2');
+        const content = slide.querySelectorAll('.card > *:not(.h1):not(.h2), .bullets li, .grid > div, .timeline-container, .jove-logo-container');
+        const tl = anime.timeline({
+            duration: 400,
+            easing: 'easeOutQuad',
+            complete: () => { isAnimating = false; }
+        });
+
+        tl.add({
+            targets: slide,
+            opacity: [0, 1],
+            scale: [0.98, 1]
+        })
+        .add({
+            targets: card,
+            translateY: [15, 0],
+        }, '-=400')
+        .add({
+            targets: title,
+            opacity: [0, 1],
+            translateX: [-20, 0],
+        }, '-=300')
+        .add({
+            targets: content,
+            opacity: [0, 1],
+            translateY: [10, 0],
+            delay: anime.stagger(80),
+        }, '-=200');
+    }
+
+    function go(i) {
+        if (isAnimating) return;
+        const newIdx = Math.max(0, Math.min(slides.length - 1, i));
+        if (newIdx === idx) return;
+        isAnimating = true;
+        const currentSlide = slides[idx];
+        animateOut(currentSlide, () => {
+            currentSlide.classList.remove('active');
+            idx = newIdx;
+            const nextSlide = slides[idx];
+            animateIn(nextSlide);
+            bar.style.width = ((idx + 1) / slides.length * 100).toFixed(2) + '%';
+            document.title = slides[idx].dataset.title + ' — JoVE Deck';
+        });
+    }
+
+    function next() { go(idx + 1); }
+    function prev() { go(idx - 1); }
+    document.getElementById('next').addEventListener('click', next);
+    document.getElementById('prev').addEventListener('click', prev);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'PageDown') next();
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp') prev();
+        if (e.key.toLowerCase() === 'f') toggleFS();
+    });
+    document.getElementById('slides').addEventListener('click', (e) => { if (e.target.closest('button, a')) return; next(); });
+    function toggleFS() { if (!document.fullscreenElement) { document.documentElement.requestFullscreen?.(); } else { document.exitFullscreen?.(); } }
+
+    const initialIdx = location.hash.match(/slide-(\d+)/) ? parseInt(location.hash.split('-')[1], 10) - 1 : 0;
+    idx = Math.max(0, Math.min(slides.length - 1, initialIdx));
+
+    slides.forEach((s, k) => {
+      if (k !== idx) {
+        s.style.opacity = 0;
+      }
+    });
+
+    isAnimating = true;
+    animateIn(slides[idx]);
+    bar.style.width = ((idx + 1) / slides.length * 100).toFixed(2) + '%';
+    document.title = slides[idx].dataset.title + ' — JoVE Deck';
+
+    anime({ targets: 'header .brand .dot', scale: [1, 1.3, 1], duration: 1500, loop: true, easing: 'easeInOutSine', delay: 500 });
+});
+</script>
+</body>
+</html>
+
