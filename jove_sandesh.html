@@ -67,21 +67,62 @@
     display: grid; place-items: center; background: var(--icon-bg);
   }
   .bullets .icon svg { width: 14px; height: 14px; fill: var(--accent); }
-  .grid { display: grid; gap: 18px; grid-template-columns: repeat(12, 1fr); }
-  .col-4 { grid-column: span 4; }
-  .col-6 { grid-column: span 6; }
-  .col-8 { grid-column: span 8; }
-  @media (max-width: 900px) { .col-4, .col-6, .col-8 { grid-column: span 12; } }
-  .kpi { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 20px; margin-bottom: 20px; }
-  .chip { border: 1px solid var(--border); border-radius: 999px; padding: 8px 14px; background: #00000033; font-size: 13px; }
-  .imgph {
-    height: 100%; min-height: 200px; border: 1px dashed var(--border); border-radius: 16px;
-    display: grid; place-items: center;
-    background: linear-gradient(180deg, #ffffff0a, #ffffff05);
-    color: var(--text-muted); font-size: 14px;
+  
+  .title-images-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-top: 20px;
+    flex-wrap: wrap;
   }
-  .jove-logo-container { text-align: center; margin-top: 20px; }
+  .profile-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 25%; /* This will zoom and center the face */
+    border: 3px solid var(--border);
+  }
   .jove-logo { max-width: 200px; height: auto; }
+
+  .initiative-image-container, .video-container {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: linear-gradient(180deg, #ffffff0a, #ffffff05);
+  }
+  .initiative-image {
+    width: 100%;
+    display: block;
+    height: auto;
+  }
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+  }
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: center;
+    margin-top: 24px;
+  }
+
+  @media (max-width: 900px) {
+    .grid-layout {
+      grid-template-columns: 1fr;
+    }
+  }
 
   /* Timeline Styles */
   .timeline-container {
@@ -177,14 +218,81 @@
 
   <main class="slides" id="slides" tabindex="0">
 
-    <section class="slide" data-title="Title Slide"><div class="card"><h1 class="h1">Product Leadership & New Initiatives for JoVE</h1><p class="muted">Presented by Sandesh Lekhwani</p><div class="jove-logo-container"><img src="https://www.jove.com/wp-content/uploads/2024/03/jove-logo-trans.6f97b4b2.png" alt="JoVE Logo" class="jove-logo"></div></div></section>
+    <section class="slide" data-title="Title Slide">
+        <div class="card">
+            <h1 class="h1">Product Leadership & New Initiatives for JoVE</h1>
+            <p class="muted">Presented by Sandesh Lekhwani</p>
+            <div class="title-images-container">
+                <img src="https://media.licdn.com/dms/image/v2/D4D22AQENtDwBl1B4Nw/feedshare-shrink_2048_1536/B4DZfF2PFdHAAo-/0/1751371022106?e=1761177600&v=beta&t=zwCf9d2pADvLm8Bv3zm5xsfyCVThgftMglTv3g4nu08" alt="Sandesh Lekhwani" class="profile-pic">
+                <img src="https://www.jove.com/wp-content/uploads/2024/03/jove-logo-trans.6f97b4b2.png" alt="JoVE Logo" class="jove-logo">
+            </div>
+        </div>
+    </section>
     <section class="slide" data-title="Profile Summary"><div class="card"><h2 class="h2">Profile Summary</h2><ul class="bullets"><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span> <div>Product leader with 6+ years of experience in fintech, healthcare, and commerce.</div></li><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span> <div>Proven ability to launch 0→1 products and lead AI-powered automation initiatives.</div></li><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span> <div>Scaled B2B platforms used by 1000+ merchants, impacting ~100M users.</div></li><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span> <div>Adept at aligning user needs with business goals through data-driven decisions.</div></li></ul></div></section>
-    <section class="slide" data-title="GoKwik: Payouts & Analytics"><div class="card"><h2 class="h2">Impact at GoKwik: Payouts & Analytics</h2><div class="grid"><div class="col-6"><ul class="bullets"><li><span class="icon"><svg><use href="#icon-problem"/></svg></span><div><strong>Problem:</strong> Major pain points for merchants and internal teams regarding billing reconciliation.</div></li><li><span class="icon"><svg><use href="#icon-solution"/></svg></span><div><strong>Solution:</strong> Led the end-to-end development of a Payout billing dashboard.</div></li><li><span class="icon"><svg><use href="#icon-impact"/></svg></span><div><strong>Impact:</strong> Streamlined billing operations and cut reconciliation disputes by 40%.</div></li><li><span class="icon"><svg><use href="#icon-impact"/></svg></span><div><strong>Analytics:</strong> Delivered real-time dashboards to track address fraud, RTO performance, and intent risk signals.</div></li></ul></div><div class="col-6"><div class="imgph">Dashboard / Analytics Chart</div></div></div></div></section>
-    <section class="slide" data-title="GoKwik: KwikFlows & GenAI"><div class="card"><h2 class="h2">Impact at GoKwik: KwikFlows & GenAI</h2><div class="grid"><div class="col-6"><ul class="bullets"><li><span class="icon"><svg><use href="#icon-solution"/></svg></span><div><strong>Scaled KwikFlows</strong> to 1,000+ merchants as a self-serve platform for fraud prevention and RTO mitigation.</div></li><li><span class="icon"><svg><use href="#icon-impact"/></svg></span><div><strong>Established a new revenue-generating product line</strong> for the business.</div></li><li><span class="icon"><svg><use href="#icon-solution"/></svg></span><div><strong>Rolled out a GenAI-based Agent</strong> for implementing COD workflows autonomously.</div></li><li><span class="icon"><svg><use href="#icon-impact"/></svg></span><div><strong>Cut workflow setup time by 70%</strong> and improved recovery rates.</div></li></ul></div><div class="col-6"><div class="imgph">GenAI Agent UI / Workflow Diagram</div></div></div></div></section>
+    
+    <section class="slide" data-title="GoKwik: KwikFlows & GenAI">
+        <div class="card">
+            <h2 class="h2">Impact at GoKwik: KwikFlows & GenAI</h2>
+            <div class="grid-layout">
+                <div>
+                    <ul class="bullets">
+                        <li><span class="icon"><svg><use href="#icon-solution"/></svg></span><div><strong>Scaled KwikFlows</strong> to 1,000+ merchants as a self-serve platform for fraud prevention and RTO mitigation.</div></li>
+                        <li><span class="icon"><svg><use href="#icon-impact"/></svg></span><div><strong>Established a new revenue-generating product line</strong> for the business.</div></li>
+                        <li><span class="icon"><svg><use href="#icon-solution"/></svg></span><div><strong>Rolled out a GenAI-based Agent</strong> for implementing COD workflows autonomously.</div></li>
+                        <li><span class="icon"><svg><use href="#icon-impact"/></svg></span><div><strong>Cut workflow setup time by 70%</strong> and improved recovery rates.</div></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="initiative-image-container">
+                        <img src="https://sandeshlekhwani.github.io/jovepresentation/recommendation.png" alt="GenAI Recommendation Engine" class="initiative-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="slide" data-title="GoKwik: Payouts & Analytics">
+        <div class="card">
+            <h2 class="h2">Impact at GoKwik: Payouts & Analytics</h2>
+            <div class="grid-layout">
+                <div>
+                    <ul class="bullets">
+                        <li><span class="icon"><svg><use href="#icon-problem"/></svg></span><div><strong>Problem:</strong> Major pain points for merchants and internal teams regarding billing reconciliation.</div></li>
+                        <li><span class="icon"><svg><use href="#icon-solution"/></svg></span><div><strong>Solution:</strong> Led the end-to-end development of a Payout billing dashboard.</div></li>
+                        <li><span class="icon"><svg><use href="#icon-impact"/></svg></span><div><strong>Impact:</strong> Streamlined billing operations and cut reconciliation disputes by 40%.</div></li>
+                        <li><span class="icon"><svg><use href="#icon-impact"/></svg></span><div><strong>Analytics:</strong> Delivered real-time dashboards to track address fraud, RTO performance, and intent risk signals.</div></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/4EoexU27spE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <section class="slide" data-title="Co-founder: SingleDose"><div class="card"><h2 class="h2">Co-founder Experience: SingleDose (Acquired by Cipla)</h2><ul class="bullets"><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span><div>Built a global HCP engagement network of over 10,000 doctors.</div></li><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span><div>Launched "Ciplamed Flix," an award-winning platform for tech-led innovation used by over 15,000 doctors.</div></li><li><span class="icon"><svg><use href="#icon-impact"/></svg></span><div>Optimized onboarding UX, which boosted user acquisition by 50% and retention by 30%.</div></li><li><span class="icon"><svg><use href="#icon-takeaway"/></svg></span><div>Drove the complete product roadmap, go-to-market strategy, and onboarding operations.</div></li></ul></div></section>
     <section class="slide" data-title="Key AI & Tech Projects"><div class="card"><h2 class="h2">Key AI & Tech Projects</h2><ul class="bullets"><li><span class="icon"><svg><use href="#icon-solution"/></svg></span><div><strong>RecruiterBuddy:</strong> A conversational AI application that automates screening calls to candidates.</div></li><li><span class="icon"><svg><use href="#icon-solution"/></svg></span><div><strong>ChanakyaGPT:</strong> A chatbot trained on the ancient Indian strategy text of Chanakya Niti.</div></li><li><span class="icon"><svg><use href="#icon-solution"/></svg></span><div><strong>Widur.in:</strong> An AI-based expert consultation platform with 2000+ users and 10 B2B clients.</div></li><li><span class="icon"><svg><use href="#icon-solution"/></svg></span><div><strong>Blockchain PoC:</strong> Led a team to build an Ethereum PoC for a wealth tech use case.</div></li></ul></div></section>
     <section class="slide" data-title="Leadership & Recognition"><div class="card"><h2 class="h2">Leadership & Recognition</h2><ul class="bullets"><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span><div><strong>Robocon India - Team Lead:</strong> Led a 40-member robotics team, improving the national rank by 53 positions in one year.</div></li><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span><div><strong>Startup India Finalist 2019</strong> for a pitch on autonomous street-cleaning robots.</div></li><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span><div><strong>Top 1% Globally</strong> in the AppEngine.Al GTM strategy challenge.</div></li><li><span class="icon"><svg><use href="#icon-bullet"/></svg></span><div><strong>Founder of RedX Club</strong>, the college's social entrepreneurship chapter.</div></li></ul></div></section>
-    <section class="slide" data-title="Initiative 1: JoVE AI Lab Mentor"><div class="card"><h2 class="h2">Initiative 1: JoVE AI Lab Mentor — The Opportunity</h2><div class="grid"><div class="col-6"><h3 class="h3">The Problem</h3><p class="muted" style="line-height: 1.5;">Static video leads to passive learning. Students and early-career researchers need contextual, on-demand help to understand complex protocols, and professors lack tools to track comprehension.</p></div><div class="col-6"><h3 class="h3">The Vision</h3><p class="muted" style="line-height: 1.5;">Transform passive viewing into an active learning dialogue. Create an intelligent AI-powered layer over JoVE's entire video library that acts as a personal, 24/7 lab mentor.</p></div></div><div class="imgph" style="margin-top: 20px;">AI Mentor Concept UI</div></div></section>
+    
+    <section class="slide" data-title="Initiative 1: JoVE AI Lab Mentor">
+        <div class="card">
+            <h2 class="h2">Initiative 1: JoVE AI Lab Mentor — The Opportunity</h2>
+            <div class="grid-layout">
+                <div>
+                    <h3 class="h3">The Problem</h3>
+                    <p class="muted" style="line-height: 1.5; text-align: left;">Static video leads to passive learning. Students and early-career researchers need contextual, on-demand help to understand complex protocols, and professors lack tools to track comprehension.</p>
+                    <h3 class="h3">The Vision</h3>
+                    <p class="muted" style="line-height: 1.5; text-align: left;">Transform passive viewing into an active learning dialogue. Create an intelligent AI-powered layer over JoVE's entire video library that acts as a personal, 24/7 lab mentor.</p>
+                </div>
+                <div>
+                    <div class="initiative-image-container">
+                        <img src="https://sandeshlekhwani.github.io/jovepresentation/jove2.png" alt="AI Mentor Concept" class="initiative-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Slide 9: Initiative 1 - Path to Commercialization (Timeline View) -->
     <section class="slide" data-title="Initiative 1: Path to Commercialization">
@@ -223,7 +331,24 @@
         </div>
     </section>
 
-    <section class="slide" data-title="Initiative 2: JoVE Research Nexus"><div class="card"><h2 class="h2">Initiative 2: JoVE Research Nexus — The Opportunity</h2><div class="grid"><div class="col-6"><h3 class="h3">The Problem</h3><p class="muted" style="line-height: 1.5;">Scientific research is increasingly interdisciplinary, but content platforms are siloed. Researchers struggle to discover relevant techniques from other fields, and collaboration happens on disconnected platforms.</p></div><div class="col-6"><h3 class="h3">The Vision</h3><p class="muted" style="line-height: 1.5;">Create a hub for cross-disciplinary discovery and collaboration. Enable research labs to create shared knowledge bases around JoVE's content, breaking down silos and accelerating innovation.</p></div></div><div class="imgph" style="margin-top: 20px;">Research Nexus Concept UI</div></div></section>
+    <section class="slide" data-title="Initiative 2: JoVE Research Nexus">
+        <div class="card">
+            <h2 class="h2">Initiative 2: JoVE Research Nexus — The Opportunity</h2>
+             <div class="grid-layout">
+                <div>
+                    <h3 class="h3">The Problem</h3>
+                    <p class="muted" style="line-height: 1.5; text-align: left;">Scientific research is increasingly interdisciplinary, but content platforms are siloed. Researchers struggle to discover relevant techniques from other fields, and collaboration happens on disconnected platforms.</p>
+                    <h3 class="h3">The Vision</h3>
+                    <p class="muted" style="line-height: 1.5; text-align: left;">Create a hub for cross-disciplinary discovery and collaboration. Enable research labs to create shared knowledge bases around JoVE's content, breaking down silos and accelerating innovation.</p>
+                </div>
+                <div>
+                    <div class="initiative-image-container">
+                        <img src="https://sandeshlekhwani.github.io/jovepresentation/jove_1.png" alt="Research Nexus Concept" class="initiative-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Slide 11: Initiative 2 - Path to Commercialization (Timeline View) -->
     <section class="slide" data-title="Initiative 2: Path to Commercialization">
@@ -336,7 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
         slide.classList.add('active');
         const card = slide.querySelector('.card');
         const title = slide.querySelector('.h1, .h2');
-        const content = slide.querySelectorAll('.card > *:not(.h1):not(.h2), .bullets li, .grid > div, .timeline-container, .jove-logo-container');
+        const content = slide.querySelectorAll('.card > *:not(.h1):not(.h2), .bullets li, .grid-layout > div, .timeline-container, .title-images-container, .initiative-image-container, .video-container');
         const tl = anime.timeline({
             duration: 400,
             easing: 'easeOutQuad',
@@ -390,7 +515,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'ArrowLeft' || e.key === 'PageUp') prev();
         if (e.key.toLowerCase() === 'f') toggleFS();
     });
-    document.getElementById('slides').addEventListener('click', (e) => { if (e.target.closest('button, a')) return; next(); });
+    document.getElementById('slides').addEventListener('click', (e) => { if (e.target.closest('button, a, iframe')) return; next(); });
     function toggleFS() { if (!document.fullscreenElement) { document.documentElement.requestFullscreen?.(); } else { document.exitFullscreen?.(); } }
 
     const initialIdx = location.hash.match(/slide-(\d+)/) ? parseInt(location.hash.split('-')[1], 10) - 1 : 0;
